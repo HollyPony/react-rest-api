@@ -56,11 +56,13 @@ A call for `api.getJson('people/3')` in Provider children result to a call to `h
 
 ## Usage
 
-### Call the `api`
+### Call the api
 
 Since it's a configured React context, you have a two native ways to access the apis + convienient hooks provided by this package.
 
 #### Access api with useContext
+
+IMO the simpliest form of the api usage
 
 ```js
 import React, { useContext } from 'react'
@@ -77,6 +79,8 @@ const SWPerson = () => {
 
 #### Access api with ApiConsumer
 
+Usage without hooks.
+
 ```js
 import React from './react'
 import { ApiConsumer } from 'react-rest-api'
@@ -91,6 +95,8 @@ const SWPerson = () => {
 
 const SWPersonWrapper = (...props) => <ApiConsumer>{ api => <SWPerson {...props} api={api} /> }</ApiConsumer>
 ```
+
+Looks painful. It could be simplified using a wrapping function like: `export withApi = Component => <ApiConsumer>{ api => <Component {...props} api={api} /> }</ApiConsumer>` in a helper file then `export default withApi(SWPerson)`
 
 #### Access api with useApi
 
@@ -171,6 +177,3 @@ Similar to `get|etc...` but wrappped adding a header `'Content-Type': 'applicati
 `api.raw(url: string, confif: Object) : Promise`
 
 Simple wrapper of `fetch` method in the Context. You probably don't need it.
-
-
-
