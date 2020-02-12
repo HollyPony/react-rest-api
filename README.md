@@ -9,6 +9,7 @@ It's basically [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_
 > So, this doc will not explain how `fetch` work but how this package wrap it.
 
 Features:
+
 - Configure fetch calls, for custom headers or prefix url for example
 - Bind json request in order to make it easy
 - Keep full fetch options to be overridable
@@ -88,7 +89,7 @@ import { ApiConsumer } from 'react-rest-api'
 const SWPerson = () => {
   componentDidMount() {
     const { api } = this.props
-    
+
     api.getJson('https://swapi.co/api/people/3')
   }
 }
@@ -140,7 +141,7 @@ This function is the most important part the main motivation of this project.
 - `queryParams`: is an Object for query params, under the hood use `URLSearchParams` to build a string then concat to `url` with a `?`.
 
     > `api.get('localhost', {param1: 'value1'})` result to a call on `localhost?value1=value1`
-- `config`: gracefully merge the object with config of ApiProvider. 
+- `config`: gracefully merge the object with config of ApiProvider.
 
     > Note: This config will overwrite the one in Provider like `finalConfig = {...providerConfig, ...fetchConfig}`
 
@@ -171,7 +172,7 @@ This method are wrapper of `api.fetch` with pre-defined `config: {method: 'METHO
 `api.delJson(url: string, queryParams: Object, config: Object) : Promise`
 
 Similar to `get|etc...` but wrappped adding a header `'Content-Type': 'application/json'` + return the result the calling the `response.json()` for you. Nothing more, nothing less.
- 
+
 #### raw
 
 `api.raw(url: string, confif: Object) : Promise`
