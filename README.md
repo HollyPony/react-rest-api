@@ -141,8 +141,11 @@ This function is the most important part the main motivation of this project.
 #### `get` | `post` | `put` | `del`
 
 `api.get(url: string, queryParams: Object, config: Object) : Promise`
+
 `api.post(url: string, queryParams: Object, config: Object) : Promise`
+
 `api.put(url: string, queryParams: Object, config: Object) : Promise`
+
 `api.del(url: string, queryParams: Object, config: Object) : Promise`
 
 Respectively corresponding to `GET`, `POST`, `PUT`, `DELETE` methods.
@@ -154,8 +157,11 @@ This method are wrapper of `api.fetch` with pre-defined `config: {method: 'METHO
 #### `getJson` | `postJson` | `putJson` | `delJson`
 
 `api.getJson(url: string, queryParams: Object, config: Object) : Promise`
+
 `api.postJson(url: string, queryParams: Object, config: Object) : Promise`
+
 `api.putJson(url: string, queryParams: Object, config: Object) : Promise`
+
 `api.delJson(url: string, queryParams: Object, config: Object) : Promise`
 
 Similar to `get|etc...` but wrappped adding a header `'Content-Type': 'application/json'` + return the result the calling the `response.json()` for you. Nothing more, nothing less.
