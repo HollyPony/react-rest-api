@@ -60,7 +60,7 @@ A call for `api.getJson('people/3')` in Provider children result to a call to `h
 
 Since it's a configured React context, you have a two native ways to access the apis + convienient hooks provided by this package.
 
-#### Access api with `useContext`
+#### Access api with useContext
 
 ```js
 import React, { useContext } from 'react'
@@ -75,7 +75,7 @@ const SWPerson = () => {
 
 > This is a demo sample, if you use `useContext` you probably should wrap your call in a `useEffect` or `useCallback` depending the need
 
-#### Access api with `ApiConsumer`
+#### Access api with ApiConsumer
 
 ```js
 import React from './react'
@@ -92,7 +92,7 @@ const SWPerson = () => {
 const SWPersonWrapper = (...props) => <ApiConsumer>{ api => <SWPerson {...props} api={api} /> }</ApiConsumer>
 ```
 
-#### Access api with `useApi`
+#### Access api with useApi
 
 > This `hook` require to provide the method name as string on first parameter. The rest of parameters still the same
 
@@ -109,7 +109,7 @@ This hook invoke a [`useEffect`](https://reactjs.org/docs/hooks-effect.html), an
 
 `useApi('getJson', 'https://swapi.co/api/people/3', undefined, undefined, [recallIfChange])`
 
-#### Shortcuts for methods through `use[Method]`
+#### Shortcuts for methods through use[Method]
 
 > The `use[Method](params)` hooks are wrapper of `useApi(method, ...params)`. Refer to `useApi` doc.
 
@@ -124,7 +124,7 @@ const SWPerson = () => {
 
 ### Available api methods
 
-#### `fetch`
+#### fetch
 
 `api.fetch(url: string, queryParams: Object, config: Object) : Promise`
 
@@ -138,7 +138,7 @@ This function is the most important part the main motivation of this project.
 
     > Note: This config will overwrite the one in Provider like `finalConfig = {...providerConfig, ...fetchConfig}`
 
-#### `get` | `post` | `put` | `del`
+#### get | post | put | del
 
 `api.get(url: string, queryParams: Object, config: Object) : Promise`
 
@@ -154,7 +154,7 @@ This method are wrapper of `api.fetch` with pre-defined `config: {method: 'METHO
 
 > Note: You can call `api.get('localhost', undefined, {method: 'POST'})`. This will result to an effective POST call. I don't know why you do that but I'm not judging.
 
-#### `getJson` | `postJson` | `putJson` | `delJson`
+#### getJson | postJson | putJson | delJson
 
 `api.getJson(url: string, queryParams: Object, config: Object) : Promise`
 
@@ -166,7 +166,7 @@ This method are wrapper of `api.fetch` with pre-defined `config: {method: 'METHO
 
 Similar to `get|etc...` but wrappped adding a header `'Content-Type': 'application/json'` + return the result the calling the `response.json()` for you. Nothing more, nothing less.
  
-#### `raw`
+#### raw
 
 `api.raw(url: string, confif: Object) : Promise`
 
