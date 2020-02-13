@@ -16,10 +16,46 @@ Features:
 - Wrap fetch on React context
 - Automatic resolve query params
 - Don't mutate the `window.fetch`
+- 12kb full unpacked package including README (6kb only for this file) - no third part dependencies
 
 See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/react-rest-api-samples](https://codesandbox.io/s/github/HollyPony/react-rest-api-samples)
 
 > This package is currently served as-is. With usage of all ES6 features without any bundling and/or specific whatever the system is used.
+
+## TL;DR – basic full usage sample
+
+`npm i react-rest-api`
+
+```js
+import React from 'react'
+import { ApiProvider, ApiContext } from 'react-rest-api'
+
+const SWPerson = ({ id }) => {
+  const [loading, setLoading] = React.useState(true)
+  const [result, setResult] = React.useState()
+  const [error, setError] = React.useState()
+  const api = React.useContext(ApiContext)
+
+  React.useEffect(() => {
+    api.getJson(`people/${id}`)
+      .then(setResult)
+      .catch(setError)
+      .then(() => setLoading(false))
+  },[])
+
+  if (loading) {
+    return 'loading ...'
+  }
+
+  if (error) {
+    return error.toString() // Render String from Error type
+  }
+
+  return JSON.stringify(result, null, 2)
+}
+
+ReactDOM.render(<ApiProvider url={'https://swapi.co/api/'}><SWPerson id={3} /></ApiProvider>, element);
+```
 
 ## Install
 
