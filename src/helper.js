@@ -1,13 +1,18 @@
-export function buildParams (obj) {
-  if (!obj || obj.length === 0) {
-    return ''
-  }
-  return `?${Object.entries(obj).reduce((acc, [key, value]) => {
+export function buildParams (obj = {}) {
+  if (Array.isArray(obj) || typeof obj === 'string') throw new Error('buildParams value should be an Object')
+
+  const queryUrl = Object.entries(obj).reduce((acc, [key, value]) => {
     if (Array.isArray(value)) {
-      value.forEach(arrItm => acc.append(`${key}[]`, arrItm))
+      if (value.length === 0) {
+        acc.append(`${key}[]`, '')
+      } else {
+        value.forEach(arrItm => acc.append(`${key}[]`, arrItm))
+      }
     } else if (value !== undefined && typeof value !== 'object') {
       acc.append(key, value)
     }
     return acc
-  }, new URLSearchParams())}`
+  }, new URLSearchParams()).toString()
+
+  return queryUrl ? `?${queryUrl}` : ''
 }
