@@ -45,7 +45,13 @@ export const ApiContext = createContext(api)
 
 export const ApiConsumer = ApiContext.Consumer
 
-export const ApiProvider = ({ children, url = '', config = {} }) => {
+export const ApiProvider = ({
+  children,
+  url = '',
+  config = {},
+  resolveCallback = response => Promise.resolve(response),
+  rejectCallback = response => Promise.reject(response)
+}) => {
   const fetch = (_endpoint = '', _params, _config = {}) => _raw(
     `${url || ''}${_endpoint}${buildParams(_params)}`,
     {
@@ -56,6 +62,8 @@ export const ApiProvider = ({ children, url = '', config = {} }) => {
         ..._config.headers
       }
     })
+    .then(resolveCallback)
+    .catch(rejectCallback)
 
   const fetchJson = (_endpoint, _params, _config = {}) => fetch(_endpoint, _params, {
     ..._config,
