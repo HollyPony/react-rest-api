@@ -104,8 +104,3 @@ export const ApiProvider = ({
   return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
 }
 
-/* TODO: For JSON calls maybe use
- * .then(response =>
- *   Promise[response.ok ? 'resolve' : 'reject'](response.json())
- *  )
- */
