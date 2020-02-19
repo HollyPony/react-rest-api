@@ -253,6 +253,8 @@ This function is the most important part the main motivation of this project.
 
 - `url`: the called url. If one is define in ApiProvider, it will be concatenate. There is currently no transformation arounds the slashes `/` treatment so don't miss yours ;)
 - `config`: gracefully merge the object with config of ApiProvider.
+
+    > config can take an extra parameter `_stringifyBody` which result to `JSON.stringify(config.body)`
 - `queryParams`: is an Object for query params, under the hood use `URLSearchParams` to build a string then concat to `url` with a `?`.
 
     > `api.get('localhost', undeifned, {param1: 'value1'})` result to a call on `localhost?value1=value1`
