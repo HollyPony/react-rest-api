@@ -2,11 +2,11 @@
 
 ![Execute Tests](https://github.com/HollyPony/react-rest-api/workflows/Execute%20Tests/badge.svg)
 
-Lightweight React API for rest calls supporting Provider config and use hooks.
+Lightweight – no dependencies – React API for rest calls supporting Provider config and use hooks.
 
-It's basically [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) wrapped in a [React Context](https://reactjs.org/docs/context.htm).
+It's basically [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) wrapped in a [React Context](https://reactjs.org/docs/context.htm) providing [React hooks](https://reactjs.org/docs/hooks-overview.html) and [React Consumer](https://reactjs.org/docs/context.html#contextconsumer).
 
-> So, this doc will not explain how `fetch` work but how this package wrap it.
+> So, this doc will not explain how all this concepts works but how this package wrap it.
 
 Features:
 
