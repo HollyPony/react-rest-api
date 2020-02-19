@@ -47,5 +47,5 @@ const _ApiProvider = ({
 
 export const ApiContext = createContext(buildApi(_fetch))
 export const ApiConsumer = ApiContext.Consumer
-export const withApi = Component => <ApiConsumer>{api => <Component {...Component.props} api={api} />}</ApiConsumer>
+export const withApi = Component => props => <ApiConsumer>{api => <Component {...props} api={api} />}</ApiConsumer>
 export const ApiProvider = _ApiProvider

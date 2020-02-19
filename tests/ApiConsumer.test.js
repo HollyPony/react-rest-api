@@ -127,5 +127,6 @@ describe('with ApiConsumer', () => {
   })
 
   it.todo('should test api.raw')
+  it.todo('should use withApi wrapper')
   it.todo('should test additional conditions param')
 })
