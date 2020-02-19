@@ -162,8 +162,6 @@ Since it's a configured React context, you have a two native ways to access the 
 
 #### Access api with useContext
 
-IMO the simpliest form of the api usage
-
 ```js
 import React, { useContext } from 'react'
 import { ApiContext } from 'react-rest-api'
@@ -211,26 +209,7 @@ const _SWPerson = () => {
 export const SWPerson = (...props) => <ApiConsumer>{ api => <_SWPerson {...props} api={api} /> }</ApiConsumer>
 ```
 
-#### Access api with useApi
-
-> This `hook` require to provide the method name as string on first parameter. The rest of parameters still the same
-
-```js
-import React from './react'
-import { useApi } from 'react-rest-api'
-
-const SWPerson = () => {
-  const { loading, result, error } = useFetch('https://swapi.co/api/people/3')
-}
-```
-
-This hook invoke a [`useEffect`](https://reactjs.org/docs/hooks-effect.html), an additional `conditions` param could be provide as dependency for this effect.
-
-`useApi('getJson', 'https://swapi.co/api/people/3', undefined, undefined, [recallIfChange])`
-
-#### Shortcuts for methods through use[Method]
-
-> The `use[Method](params)` hooks are wrapper of `useApi(method, ...params)`. Refer to `useApi` doc.
+#### Access api through custom hooks > use[Method]
 
 ```js
 import React from './react'
