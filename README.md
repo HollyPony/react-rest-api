@@ -10,12 +10,12 @@ It's basically [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_
 
 Features:
 
-- Configure fetch calls, for custom headers or prefix url for example
-- Keep full fetch options to be overridable
-- Wrap fetch on React context
-- Automatic resolve query params
-- Don't mutate the `window.fetch`
-- 3 569 bytes of source code - no third part dependencies
+- Configurable: Configure fetch calls, for custom headers or prefix url for example
+- Flexible: Keep full fetch options to be overridable
+- React compliant: Wrap fetch on React context - even the native fetch
+- Help: Automatic resolve query params
+- Safe: Don't mutate the `window.fetch`
+- Light: 3 432 bytes of source code - no third part dependencies ( + 10.5kb of README and pacakge related stuffs )
 
 See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/react-rest-api-samples](https://codesandbox.io/s/github/HollyPony/react-rest-api-samples)
 
