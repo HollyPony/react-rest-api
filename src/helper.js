@@ -16,3 +16,39 @@ export function buildParams (obj = {}) {
 
   return queryUrl ? `?${queryUrl}` : ''
 }
+
+export const _fetch = (_endpoint, { _stringifyBody, ..._conf } = {}) => fetch(_endpoint, _conf)
+
+export const buildApi = ({
+  url = '',
+  config: conf = {},
+  resolveCallback = res => Promise.resolve(res),
+  rejectCallback = res => Promise.reject(res)
+} = {}) => {
+  const proxy = (_endpoint, _conf = {}, _params) => _fetch(
+    `${url}${_endpoint || ''}${buildParams(_params)}`,
+    {
+      ...conf,
+      ..._conf,
+      headers: (conf.headers || _conf.headers) && {
+        ...conf.headers,
+        ..._conf.headers
+      },
+      body: (_conf.body || conf.body)
+        ? (_conf._stringifyBody !== undefined ? _conf._stringifyBody : conf._stringifyBody)
+          ? JSON.stringify(_conf.body || conf.body)
+          : (_conf.body || conf.body)
+        : undefined
+    })
+    .then(resolveCallback)
+    .catch(rejectCallback)
+
+  return {
+    raw: _fetch,
+    fetch: proxy,
+    get: (_endpoint, _conf = {}, _params) => proxy(_endpoint, { method: 'GET', ..._conf }, _params),
+    post: (_endpoint, _conf = {}, _params) => proxy(_endpoint, { method: 'POST', ..._conf }, _params),
+    put: (_endpoint, _conf = {}, _params) => proxy(_endpoint, { method: 'PUT', ..._conf }, _params),
+    del: (_endpoint, _conf = {}, _params) => proxy(_endpoint, { method: 'DELETE', ..._conf }, _params)
+  }
+}
