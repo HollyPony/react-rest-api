@@ -1,6 +1,7 @@
 # React-Rest-Api
 
-![Execute Tests](https://github.com/HollyPony/react-rest-api/workflows/Execute%20Tests/badge.svg)
+![Tests](https://github.com/HollyPony/react-rest-api/workflows/Execute%20Tests/badge.svg)
+[![install size](https://packagephobia.now.sh/badge?p=react-rest-api)](https://packagephobia.now.sh/result?p=react-rest-api)
 
 Lightweight – no dependencies – React API for rest calls supporting Provider config and use hooks.
 
