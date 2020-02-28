@@ -20,8 +20,9 @@ export function buildParams (obj = {}) {
 export const _fetch = (_endpoint, { _stringifyBody, ..._conf } = {}) => fetch(_endpoint, _conf)
 
 export const buildApi = ({
-  url = '',
-  config: conf = {},
+  url = '', config: conf = {},
+  setUrl = () => { throw new Error('You should provide `setUrl` to <ApiProvider />') },
+  setConfig = () => { throw new Error('You should provide `setConfig` to <ApiProvider />') },
   resolveCallback = res => Promise.resolve(res),
   rejectCallback = res => Promise.reject(res)
 } = {}) => {
@@ -44,6 +45,8 @@ export const buildApi = ({
     .catch(rejectCallback)
 
   return {
+    setUrl,
+    setConfig,
     raw: _fetch,
     fetch: proxy,
     get: (_endpoint, _conf = {}, _params) => proxy(_endpoint, { method: 'GET', ..._conf }, _params),

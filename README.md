@@ -27,11 +27,11 @@ See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/r
 `npm i react-rest-api`
 
 ```js
-import React from 'react'
+import React, { useState, } from 'react'
 import { ApiProvider, useGet } from 'react-rest-api'
 
 const SWPerson = ({ id }) => {
-  const { loading, result, error } = useGet(`people/${id}`)
+  const { loading, result, error, } = useGet(`people/${id}`)
 
   if (loading) {
     return 'loading ...'
@@ -44,21 +44,48 @@ const SWPerson = ({ id }) => {
   return JSON.stringify(result, null, 2)
 }
 
-const url = 'https://swapi.co/api/'
-const config = {
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}
-
 const resolveCallback = response => response.json()
 
-ReactDOM.render(<ApiProvider
-  url={url}
-  config={config}
-  resolveCallback={resolveCallback}>
-  <SWPerson id={3} />
-</ApiProvider>, document.getElementById("root"));
+const App = () => {
+  const [url, setUrl] = useState('https://swapi.co/api/')
+  const [config, setConfig] = useState({
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  return (
+    <ApiProvider
+      url={url} // Optional: prefix url api calls
+      config={config} // Optional: Init default config of fetch
+      setUrl={setUrl} // Optional: Provide context accessible function to update state
+      setConfig={setConfig} // Optional: Provide context accessible function to update state
+      resolveCallback={resolveCallback} // Optional: Provide callback function for success fetchs
+    >
+      <SWPerson id={3} />
+    </ApiProvider>
+  )
+}
+
+const AppAlternative = () => {
+  const [apiConfig, setApiConfig] = useState({
+    url: 'https://swapi.co/api/',
+    config: {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    },
+    resolveCallback
+  })
+
+  return (
+    <ApiProvider {...apiConfig} setConfig={setApiConfig}>
+      <SWPerson id={3} />
+    </ApiProvider>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 ## Install
@@ -145,6 +172,18 @@ const resolveCallback = response => response.ok ? response.json() : Promise.reje
 This will reject the call into `rejectCallback` and `error` result of api calls.
 
 > Note: fetch API consider a 400 response as success call with `ok: false`.
+
+#### setUrl | setConfig
+
+```javascript
+  <ApiProvider
+    setUrl={Function : any}
+    setConfig={Function : any} />
+```
+
+Basically these are shortcuts providing [context level functions](https://reactjs.org/docs/context.html#updating-context-from-a-nested-component) through nested components.
+
+It's allow calls from api which be directly call provided function.
 
 #### dispatch (Optional)
 
@@ -274,3 +313,14 @@ useRaw(url: string, config: Object, conditions: Array) : Promise
 Same signature as original methods plus an Array of conditions.
 
 `conditions` is an Array passed as-is to the [`useEffect`](https://reactjs.org/docs/hooks-effect.html) method as dependencies.
+
+#### api setUrl | setConfig
+
+```javascript
+setUrl(any) : any
+setConfig(any) : any
+```
+
+> In order to call this function you should define them in Provider
+
+Once defined, allow you to call these callbacks in the whole context. See the [codesandbox](https://codesandbox.io/s/github/HollyPony/react-rest-api-samples) for more informations.
