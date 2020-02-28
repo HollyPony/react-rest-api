@@ -108,7 +108,7 @@ const App = () => (
 
 ```javascript
   <ApiProvider
-    url={url} />
+    url={String} />
 ```
 
 Will prefix all api call with provided `url`.
@@ -119,19 +119,19 @@ Will prefix all api call with provided `url`.
 
 ```javascript
   <ApiProvider
-    config={config} />
+    config={Object} />
 ```
 
 `config` should be an object corresponding will send as fetch [`init`](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) param by default for all api calls.
 
 Merge method allow to overrided this default by the `config` param of all api methods.
 
-#### resolveCallback/rejectCallback (Optional)
+#### resolveCallback | rejectCallback (Optional)
 
 ```javascript
   <ApiProvider
-    resolveCallback={resolveCallback}
-    rejectCallback={rejectCallback} />
+    resolveCallback={Function : Promise}
+    rejectCallback={Function : Promise} />
 ```
 
 This should be methods which will be binded to the `then`/`catch` result of `fetch` and apply to all api calls.
@@ -223,7 +223,7 @@ const SWPerson = () => {
 
 ### Available api methods
 
-#### fetch
+#### api fetch
 
 ```javascript
 api.fetch(url: string, config: Object, queryParams: Object) : Promise
@@ -239,7 +239,7 @@ This function is the most important part the main motivation of this project.
 
     > `api.get('localhost', undeifned, {param1: 'value1'})` result to a call on `localhost?value1=value1`
 
-#### get | post | put | del
+#### api get | post | put | del
 
 ```javascript
 api.get(url: string, config: Object, queryParams: Object) : Promise
@@ -260,7 +260,7 @@ This method are wrapper of `api.fetch` with pre-defined `config: {method: 'METHO
 
 Simple wrapper of original `window.fetch` method in the Context. You probably don't need it. It's use internally and it's simply exported
 
-#### useFetch | useGet | usePost | usePut | useDelete | useRaw
+#### api useFetch | useGet | usePost | usePut | useDelete | useRaw
 
 ```javascript
 useFetch(url: string, config: Object, queryParams: Object, conditions: Array) : Promise
