@@ -16,7 +16,7 @@ Features:
 - React compliant: Wrap fetch on React context - even the native fetch
 - Help: Automatic resolve query params
 - Safe: Don't mutate the `window.fetch`
-- Light: 3 432 bytes of source code - no third part dependencies ( + 10.5kb of README and pacakge related stuffs )
+- Light: 3 639 bytes of source code - no third part dependencies ( + 10.5kb of README and pacakge related stuffs )
 
 See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/react-rest-api-samples](https://codesandbox.io/s/github/HollyPony/react-rest-api-samples)
 
