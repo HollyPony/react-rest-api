@@ -26,7 +26,7 @@ describe('fetch without provider', () => {
 
     await setupFetch([''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', {})
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -43,7 +43,7 @@ describe('fetch without provider', () => {
 
     await setupFetch([''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', {})
     expect(callbackSuccess).not.toHaveBeenCalled()
     expect(callbackError).toHaveBeenNthCalledWith(1, expect.any(TypeError))
   })
@@ -55,7 +55,7 @@ describe('fetch without provider', () => {
 
     await setupFetch(['https://localhost'])
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', {})
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -72,7 +72,7 @@ describe('fetch without provider', () => {
 
     await setupFetch(['https://localhost', undefined, { param: 'val' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost?param=val', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost?param=val', {})
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -89,7 +89,7 @@ describe('fetch without provider', () => {
 
     await setupFetch(['https://localhost', { headers: { 'Content-Type': 'application/json' } }])
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', { headers: { 'Content-Type': 'application/json' } })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { headers: { 'Content-Type': 'application/json' } })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -106,7 +106,7 @@ describe('fetch without provider', () => {
 
     await setupFetch(['https://localhost', { _stringifyBody: true, body: { param: 'val' } }])
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', { body: JSON.stringify({ param: 'val' }) })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { body: JSON.stringify({ param: 'val' }) })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,

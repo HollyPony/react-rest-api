@@ -23,7 +23,7 @@ const setupComponent = async (mockedFetch, providerProps) => {
     .then(callbackSuccess)
     .catch(callbackError)
 
-  expect(window.fetch).toHaveBeenCalledWith('', { method: 'GET' })
+  expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'GET' })
 }
 
 describe('apiProvider', () => {

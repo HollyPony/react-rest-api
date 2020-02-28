@@ -27,7 +27,7 @@ describe('del', () => {
 
     await setupFetch([''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'DELETE' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'DELETE' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -46,7 +46,7 @@ describe('del', () => {
       wrapper: ({ ...props }) => <ApiProvider {...props} url='https://localhost' />
     })
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', { method: 'DELETE' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { method: 'DELETE' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -63,7 +63,7 @@ describe('del', () => {
 
     await setupFetch([''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'DELETE' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'DELETE' })
     expect(callbackSuccess).not.toHaveBeenCalled()
     expect(callbackError).toHaveBeenNthCalledWith(1, expect.any(TypeError))
   })
@@ -76,7 +76,7 @@ describe('del', () => {
     await setupFetch(
       ['/path'])
 
-    expect(window.fetch).toHaveBeenCalledWith('/path', { method: 'DELETE' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '/path', { method: 'DELETE' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -94,7 +94,7 @@ describe('del', () => {
     await setupFetch(
       ['/path', { method: 'POST' }, { param: 'val' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('/path?param=val', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '/path?param=val', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -112,7 +112,7 @@ describe('del', () => {
     await setupFetch(
       ['/path', undefined, { param: 'val' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('/path?param=val', { method: 'DELETE' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '/path?param=val', { method: 'DELETE' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,

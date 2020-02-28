@@ -27,7 +27,7 @@ describe('post', () => {
 
     await setupFetch([''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -46,7 +46,7 @@ describe('post', () => {
       wrapper: ({ ...props }) => <ApiProvider {...props} url='https://localhost' />
     })
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -63,7 +63,7 @@ describe('post', () => {
 
     await setupFetch([''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'POST' })
     expect(callbackSuccess).not.toHaveBeenCalled()
     expect(callbackError).toHaveBeenNthCalledWith(1, expect.any(TypeError))
   })
@@ -76,7 +76,7 @@ describe('post', () => {
     await setupFetch(
       ['/path'])
 
-    expect(window.fetch).toHaveBeenCalledWith('/path', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '/path', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -94,7 +94,7 @@ describe('post', () => {
     await setupFetch(
       ['/path', { method: 'GET' }, { param: 'val' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('/path?param=val', { method: 'GET' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '/path?param=val', { method: 'GET' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -112,7 +112,7 @@ describe('post', () => {
     await setupFetch(
       ['/path', undefined, { param: 'val' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('/path?param=val', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '/path?param=val', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,

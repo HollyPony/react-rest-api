@@ -33,7 +33,7 @@ describe('fetch with provider with url', () => {
 
     await setupFetch([''], providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', {})
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -50,7 +50,7 @@ describe('fetch with provider with url', () => {
 
     await setupFetch([''], providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', {})
     expect(callbackSuccess).not.toHaveBeenCalled()
     expect(callbackError).toHaveBeenNthCalledWith(1, expect.any(TypeError))
   })
@@ -64,7 +64,7 @@ describe('fetch with provider with url', () => {
       ['/path'],
       providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost/path', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost/path', {})
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -83,7 +83,7 @@ describe('fetch with provider with url', () => {
       ['/path', undefined, { param: 'val' }],
       providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost/path?param=val', {})
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost/path?param=val', {})
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -102,7 +102,7 @@ describe('fetch with provider with url', () => {
       ['/path', { headers: { 'Content-Type': 'application/json' } }],
       providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('https://localhost/path', { headers: { 'Content-Type': 'application/json' } })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost/path', { headers: { 'Content-Type': 'application/json' } })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -129,7 +129,7 @@ describe('fetch with provider with Content-Type header', () => {
 
     await setupFetch([''], providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('', { headers: { 'Content-Type': 'application/json' } })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { headers: { 'Content-Type': 'application/json' } })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -146,7 +146,7 @@ describe('fetch with provider with Content-Type header', () => {
 
     await setupFetch(['', { headers: { 'Content-Type': 'application/xml' } }], providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('', { headers: { 'Content-Type': 'application/xml' } })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { headers: { 'Content-Type': 'application/xml' } })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -163,7 +163,7 @@ describe('fetch with provider with Content-Type header', () => {
 
     await setupFetch(['', { headers: { 'X-Api-Key': 1234 } }], providerProps)
 
-    expect(window.fetch).toHaveBeenCalledWith('', { headers: { 'Content-Type': 'application/json', 'X-Api-Key': 1234 } })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { headers: { 'Content-Type': 'application/json', 'X-Api-Key': 1234 } })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,

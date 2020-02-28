@@ -27,7 +27,7 @@ describe('with useApi', () => {
 
     await setupFetch('fetch', ['', { method: 'GET' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'GET' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'GET' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -44,7 +44,7 @@ describe('with useApi', () => {
 
     await setupFetch('get', [''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'GET' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'GET' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -61,7 +61,7 @@ describe('with useApi', () => {
 
     await setupFetch('get', ['', { method: 'POST' }])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -78,7 +78,7 @@ describe('with useApi', () => {
 
     await setupFetch('post', [''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'POST' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'POST' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -95,7 +95,7 @@ describe('with useApi', () => {
 
     await setupFetch('put', [''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'PUT' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'PUT' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
@@ -112,7 +112,7 @@ describe('with useApi', () => {
 
     await setupFetch('del', [''])
 
-    expect(window.fetch).toHaveBeenCalledWith('', { method: 'DELETE' })
+    expect(window.fetch).toHaveBeenNthCalledWith(1, '', { method: 'DELETE' })
     expect(callbackSuccess).toHaveBeenNthCalledWith(1, expect.objectContaining({
       ok: true,
       status: 200,
