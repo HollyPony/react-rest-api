@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { useState, useContext, useEffect } from 'react'
-import { render, wait } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 
 import { ApiProvider, ApiContext } from '../src'
 import { mockSuccess } from './fetch.mock'
@@ -34,7 +34,7 @@ describe('updateConfig', () => {
 
     render(<Content />, { wrapper: (props) => <ProvideFunctions defaultUrl='https://localhost' {...props} /> })
 
-    await wait()
+    await waitFor(() => {})
 
     expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', {})
     expect(window.fetch).toHaveBeenNthCalledWith(2, 'https://localhost/path', {})
@@ -61,7 +61,7 @@ describe('updateConfig', () => {
 
     render(<Content />, { wrapper: (props) => <ProvideFunctions defaultUrl='https://localhost' {...props} /> })
 
-    await wait()
+    await waitFor(() => {})
 
     expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', {})
     expect(window.fetch).toHaveBeenNthCalledWith(2, 'https://localhost', { method: 'POST' })
@@ -97,7 +97,7 @@ describe('updateConfig', () => {
         />
     })
 
-    await wait()
+    await waitFor(() => {})
 
     expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { method: 'GET' })
     expect(window.fetch).toHaveBeenNthCalledWith(2, 'https://localhost', { method: 'POST' })
@@ -130,7 +130,7 @@ describe('updateConfig', () => {
         />
     })
 
-    await wait()
+    await waitFor(() => {})
 
     expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', {})
     expect(window.fetch).toHaveBeenNthCalledWith(2, 'https://localhost', { headers: { 'X-Custom': 'value' } })
@@ -166,7 +166,7 @@ describe('updateConfig', () => {
         />
     })
 
-    await wait()
+    await waitFor(() => {})
 
     expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { headers: { 'X-Custom-1': 'value' } })
     expect(window.fetch).toHaveBeenNthCalledWith(2, 'https://localhost', { headers: { 'X-Custom-1': 'value', 'X-Custom-2': 'value' } })
@@ -202,7 +202,7 @@ describe('updateConfig', () => {
         />
     })
 
-    await wait()
+    await waitFor(() => {})
 
     expect(window.fetch).toHaveBeenNthCalledWith(1, 'https://localhost', { headers: { 'X-Custom': 'valueBase' } })
     expect(window.fetch).toHaveBeenNthCalledWith(2, 'https://localhost', { headers: { 'X-Custom': 'valueOverride' } })

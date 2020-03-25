@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react'
-import { render, wait } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 
 import { ApiConsumer } from '../src'
 import { mockSuccess } from './fetch.mock'
@@ -20,7 +20,7 @@ const setupFetch = async (fct, fetchParams = [], renderOptions) => {
       return ''
     }}
     </ApiConsumer>, renderOptions)
-  await wait()
+  await waitFor(() => {})
 }
 
 describe('with ApiConsumer', () => {
