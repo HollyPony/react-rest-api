@@ -8,6 +8,8 @@ export function buildParams (obj = {}) {
       } else {
         value.forEach(arrItm => acc.append(`${key}[]`, arrItm))
       }
+    } else if (value instanceof Date) {
+      acc.append(key, value.toISOString())
     } else if (value !== undefined && typeof value !== 'object') {
       acc.append(key, value)
     }
