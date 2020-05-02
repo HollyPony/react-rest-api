@@ -51,7 +51,7 @@ export const buildApi = ({
   rejectCallback = res => Promise.reject(res)
 } = {}) => {
   const proxy = (_endpoint, _conf = {}, _params) => _fetch(
-    `${url}${_endpoint || ''}${buildParams(_params)}`,
+    `${url}${_endpoint || ''}${objectToQuery(_params)}`,
     {
       ...conf,
       ..._conf,
