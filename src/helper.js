@@ -19,6 +19,28 @@ export function buildParams (obj = {}) {
   return queryUrl ? `?${queryUrl}` : ''
 }
 
+const toObjectValue = (value, type) => {
+  switch (type) {
+    case 'number': return Number(value)
+    case 'date': return isNaN(Date.parse(value)) ? value : new Date(value)
+    default: return value
+  }
+}
+
+export const queryToObject = (search, descriptors = {}) => {
+  const searchParams = new URLSearchParams(search)
+
+  const params = Object.entries(descriptors).reduce((acc, [key, options]) => {
+    if (searchParams.has(key)) {
+      acc[key] = options.array
+        ? searchParams.getAll(key).map(value => toObjectValue(value, options.type))
+        : toObjectValue(searchParams.get(key), options.type)
+    }
+    return acc
+  }, {})
+
+  return params
+}
 export const _fetch = (_endpoint, { _stringifyBody, ..._conf } = {}) => fetch(_endpoint, _conf)
 
 export const buildApi = ({
