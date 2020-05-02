@@ -4,9 +4,9 @@ export function buildParams (obj = {}) {
   const queryUrl = Object.entries(obj).reduce((acc, [key, value]) => {
     if (Array.isArray(value)) {
       if (value.length === 0) {
-        acc.append(`${key}[]`, '')
+        acc.append(key, '')
       } else {
-        value.forEach(arrItm => acc.append(`${key}[]`, arrItm))
+        value.forEach(arrItm => acc.append(key, arrItm))
       }
     } else if (value instanceof Date) {
       acc.append(key, value.toISOString())
