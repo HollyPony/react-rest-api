@@ -1,3 +1,3 @@
 export * from './Context'
-export * from './useHook'
+export * from './hooks'
 export * from './helper'
