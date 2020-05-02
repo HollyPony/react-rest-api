@@ -1,5 +1,5 @@
-export function buildParams (obj = {}) {
-  if (Array.isArray(obj) || typeof obj === 'string') throw new Error('buildParams value should be an Object')
+export function objectToQuery (obj = {}) {
+  if (Array.isArray(obj) || typeof obj === 'string') throw new Error('objectToQuery value should be an Object')
 
   const queryUrl = Object.entries(obj).reduce((acc, [key, value]) => {
     if (Array.isArray(value)) {
