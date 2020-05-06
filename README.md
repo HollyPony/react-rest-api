@@ -1,7 +1,12 @@
 # React-Rest-Api
 
+![Release](https://badgen.net/github/release/hollypony/react-rest-api)
+![Minified](https://badgen.net/bundlephobia/min/react-rest-api)
+![Minified + zip](https://badgen.net/bundlephobia/minzip/react-rest-api)
+![Dependencies](https://badgen.net/github/dependents-pkg/hollypony/react-rest-api)
 ![Tests](https://github.com/HollyPony/react-rest-api/workflows/Execute%20Tests/badge.svg)
-[![install size](https://packagephobia.now.sh/badge?p=react-rest-api)](https://packagephobia.now.sh/result?p=react-rest-api)
+![Tech Debt](https://badgen.net/codeclimate/tech-debt/codeclimate/codeclimate)
+![Maintainability](https://badgen.net/codeclimate/maintainability/codeclimate/codeclimate)
 
 Lightweight – no dependencies – React API for rest calls supporting Provider config and use hooks.
 
@@ -16,7 +21,6 @@ Features:
 - React compliant: Wrap fetch on React context - even the native fetch
 - Help: Automatic resolve query params
 - Safe: Don't mutate the `window.fetch`
-- Light: 3 639 bytes of source code - no third part dependencies ( + 10.5kb of README and pacakge related stuffs )
 
 See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/react-rest-api-samples](https://codesandbox.io/s/github/HollyPony/react-rest-api-samples)
 
