@@ -1,6 +1,6 @@
 {
   "name": "react-rest-api",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Use fetch with hooks",
   "keywords": [
     "react",
@@ -24,7 +24,7 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": "> 16.8.0 < 18.x"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.5",
@@ -42,8 +42,8 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.4.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-test-renderer": "^16.13.1"
+    "react": "17.0.1",
+    "react-dom": "^17.0.1",
+    "react-test-renderer": "^17.0.1"
   }
 }
