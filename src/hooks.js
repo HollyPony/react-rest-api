@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 
 import { ApiContext } from './Context'
 
-const useApi = (fct, endpoint, config, params, conditions = []) => {
+const useFetcher = (fct, endpoint, config, params, conditions = []) => {
   const [state, setState] = useState({
     loading: true,
     result: undefined,
@@ -22,9 +22,10 @@ const useApi = (fct, endpoint, config, params, conditions = []) => {
   return state
 }
 
-export const useRaw = (endpoint, config, conditions) => useApi('raw', endpoint, config, undefined, conditions)
-export const useFetch = (...params) => useApi('fetch', ...params)
-export const useGet = (...params) => useApi('get', ...params)
-export const usePost = (...params) => useApi('post', ...params)
-export const usePut = (...params) => useApi('put', ...params)
-export const useDelete = (...params) => useApi('del', ...params)
+export const useRaw = (endpoint, config, conditions) => useFetcher('raw', endpoint, config, undefined, conditions)
+export const useFetch = (...params) => useFetcher('fetch', ...params)
+export const useGet = (...params) => useFetcher('get', ...params)
+export const usePost = (...params) => useFetcher('post', ...params)
+export const usePut = (...params) => useFetcher('put', ...params)
+export const useDelete = (...params) => useFetcher('del', ...params)
+export const useApi = () => useContext(ApiContext)

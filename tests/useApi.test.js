@@ -20,7 +20,7 @@ const setupFetch = async (useIt, fetchParams = [], renderOptions) => {
   })
 }
 
-describe('with useApi', () => {
+describe('with useFetch', () => {
   it('should get', async () => {
     expect.hasAssertions()
 
@@ -125,4 +125,5 @@ describe('with useApi', () => {
 
   it.todo('should useRaw')
   it.todo('should test additional conditions param')
+  it.todo('should useApi')
 })
