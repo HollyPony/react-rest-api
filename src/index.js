@@ -3,23 +3,37 @@ import React, { createContext, useContext, useRef } from 'react'
 export const ApiContext = createContext()
 export const ApiProvider = ({
   url: initialUrl = '',
-  config: initialConf,
+  config: initialConfig = {},
   resolveCallback = res => Promise.resolve(res),
   rejectCallback = res => Promise.reject(res),
   children
 }) => {
   const url = useRef(initialUrl)
-  const config = useRef(initialConf)
+  const config = useRef(initialConfig)
 
-  const proxy = (endpoint, _config, _params) =>
-    fetch(`${url.current}${endpoint}${objectToQuery(_params)}`, buildConfig(config.current, _config))
+  function mergeConfig (newConfig = {}) {
+    return {
+      ...removeUndefineds({
+        ...config.current,
+        ...newConfig
+      }),
+      headers: removeUndefineds({
+        ...(config.current.headers || {}),
+        ...(newConfig.headers || {})
+      })
+    }
+  }
+
+  function proxy (endpoint, config, params) {
+    return fetch(`${url.current}${endpoint}${objectToQuery(params)}`, mergeConfig(config))
       .then(resolveCallback)
       .catch(rejectCallback)
+  }
 
   return React.createElement(ApiContext.Provider, {
     value: {
       setUrl: (newUrl = {}) => { url.current = newUrl },
-      setConfig: (newConfig = {}) => { config.current = newConfig },
+      setConfig: (newConfig = {}) => { config.current = mergeConfig(newConfig) },
       fetch: proxy,
       get: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'GET', ...conf }, params),
       post: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'POST', ...conf }, params),
@@ -30,19 +44,6 @@ export const ApiProvider = ({
 }
 
 export const useApi = () => useContext(ApiContext)
-
-function buildConfig (oldConfig = {}, newConfig = {}) {
-  return {
-    ...removeUndefineds({
-      ...oldConfig,
-      ...newConfig
-    }),
-    headers: removeUndefineds({
-      ...(oldConfig.headers || {}),
-      ...(newConfig.headers || {})
-    })
-  }
-}
 
 export function objectToQuery (obj = {}) {
   if (Array.isArray(obj) || typeof obj === 'string') throw new Error('objectToQuery value should be an Object')
