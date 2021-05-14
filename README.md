@@ -297,34 +297,11 @@ This method are wrapper of `api.fetch` with pre-defined `config: {method: 'METHO
 
 > Note: You can call `api.get('localhost', method: 'POST'})`. This will result to an effective POST call, overriding the method.
 
-#### raw
-
-`api.raw(url: string, config: Object) : Promise`
-
-Simple wrapper of original `window.fetch` method in the Context. You probably don't need it. It's use internally and it's simply exported
-
-#### api useFetch | useGet | usePost | usePut | useDelete | useRaw
-
-```javascript
-useFetch(url: string, config: Object, queryParams: Object, conditions: Array) : Promise
-useGet(url: string, config: Object, queryParams: Object, conditions: Array) : Promise
-usePost(url: string, config: Object, queryParams: Object, conditions: Array) : Promise
-usePut(url: string, config: Object, queryParams: Object, conditions: Array) : Promise
-useDelete(url: string, config: Object, queryParams: Object, conditions: Array) : Promise
-useRaw(url: string, config: Object, conditions: Array) : Promise
-```
-
-Same signature as original methods plus an Array of conditions.
-
-`conditions` is an Array passed as-is to the [`useEffect`](https://reactjs.org/docs/hooks-effect.html) method as dependencies.
-
 #### api setUrl | setConfig
 
 ```javascript
 setUrl(any) : any
 setConfig(any) : any
 ```
-
-> In order to call this function you should define them in Provider
 
 Once defined, allow you to call these callbacks in the whole context. See the [codesandbox](https://codesandbox.io/s/github/HollyPony/react-rest-api-samples) for more informations.
