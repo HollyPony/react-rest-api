@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef } from 'react'
+import React, { createContext, useContext, useEffect, useRef } from 'react'
 
 export const ApiContext = createContext()
 export const ApiProvider = ({
@@ -10,6 +10,8 @@ export const ApiProvider = ({
 }) => {
   const url = useRef(initialUrl)
   const config = useRef(initialConfig)
+
+  useEffect(() => { config.current = initialConfig }, [initialConfig])
 
   function mergeConfig (newConfig = {}) {
     return {
