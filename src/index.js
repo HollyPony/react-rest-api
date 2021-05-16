@@ -10,8 +10,8 @@ export const ApiProvider = ({
 }) => {
   const url = useRef(initialUrl)
   const config = useRef(initialConfig)
-  const resolveHook = useRef(() => {})
-  const rejectHook = useRef(() => {})
+  const resolveHook = useRef(res => Promise.resolve(res))
+  const rejectHook = useRef(res => Promise.reject(res))
 
   function mergeConfig (newConfig = {}) {
     return {
@@ -28,8 +28,8 @@ export const ApiProvider = ({
 
   function proxy (endpoint, config, params) {
     return fetch(`${url.current}${endpoint}${objectToQuery(params)}`, mergeConfig(config))
-      .then((response) => resolveHook(response) || resolveCallback(response))
-      .catch((response) => rejectHook(response) || rejectCallback(response))
+      .then(resolveCallback).then(resolveHook)
+      .catch(rejectCallback).catch(rejectHook)
   }
 
   return React.createElement(ApiContext.Provider, {
