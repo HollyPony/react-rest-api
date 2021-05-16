@@ -34,6 +34,7 @@ export const ApiProvider = ({
     value: {
       setUrl: (newUrl = {}) => { url.current = newUrl },
       setConfig: (newConfig = {}) => { config.current = mergeConfig(newConfig) },
+      getConfig: () => config.current,
       fetch: proxy,
       get: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'GET', ...conf }, params),
       post: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'POST', ...conf }, params),
