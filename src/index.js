@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react'
+import React, { createContext, useContext, useRef } from 'react'
 
 export const ApiContext = createContext()
 export const ApiProvider = ({
@@ -10,8 +10,8 @@ export const ApiProvider = ({
 }) => {
   const url = useRef(initialUrl)
   const config = useRef(initialConfig)
-
-  useEffect(() => { config.current = initialConfig }, [initialConfig])
+  const resolveHook = useRef(() => {})
+  const rejectHook = useRef(() => {})
 
   function mergeConfig (newConfig = {}) {
     return {
@@ -28,15 +28,17 @@ export const ApiProvider = ({
 
   function proxy (endpoint, config, params) {
     return fetch(`${url.current}${endpoint}${objectToQuery(params)}`, mergeConfig(config))
-      .then(resolveCallback)
-      .catch(rejectCallback)
+      .then((response) => resolveHook(response) || resolveCallback(response))
+      .catch((response) => rejectHook(response) || rejectCallback(response))
   }
 
   return React.createElement(ApiContext.Provider, {
     value: {
-      setUrl: (newUrl = {}) => { url.current = newUrl },
+      setUrl: (newUrl = '') => { url.current = newUrl },
       setConfig: (newConfig = {}) => { config.current = mergeConfig(newConfig) },
       getConfig: () => config.current,
+      setResolveHook: (callback = () => {}) => { resolveHook.current = callback },
+      setRejectHook: (callback = () => {}) => { rejectHook.current = callback },
       fetch: proxy,
       get: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'GET', ...conf }, params),
       post: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'POST', ...conf }, params),
