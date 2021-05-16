@@ -4,8 +4,8 @@ export const ApiContext = createContext()
 export const ApiProvider = ({
   url: initialUrl = '',
   config: initialConfig = {},
-  resolveCallback = res => Promise.resolve(res),
-  rejectCallback = res => Promise.reject(res),
+  resolveParser = res => Promise.resolve(res),
+  rejectParser = res => Promise.reject(res),
   children
 }) => {
   const url = useRef(initialUrl)
@@ -28,8 +28,8 @@ export const ApiProvider = ({
 
   function proxy (endpoint, config, params) {
     return fetch(`${url.current}${endpoint}${objectToQuery(params)}`, mergeConfig(config))
-      .then(resolveCallback).then(resolveHook)
-      .catch(rejectCallback).catch(rejectHook)
+      .then(resolveParser).then(resolveHook)
+      .catch(rejectParser).catch(rejectHook)
   }
 
   return React.createElement(ApiContext.Provider, {
