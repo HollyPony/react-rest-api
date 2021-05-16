@@ -28,8 +28,8 @@ export const ApiProvider = ({
 
   function proxy (endpoint, config, params) {
     return fetch(`${url.current}${endpoint}${objectToQuery(params)}`, mergeConfig(config))
-      .then(resolveParser).then(resolveHook)
-      .catch(rejectParser).catch(rejectHook)
+      .then(resolveParser).then(resolveHook.current)
+      .catch(rejectParser).catch(rejectHook.current)
   }
 
   return React.createElement(ApiContext.Provider, {
