@@ -1,54 +1,46 @@
-import React, { createContext, useContext, useRef } from 'react'
+import React, { createContext, useContext } from 'react'
 
 export const ApiContext = createContext()
 export const ApiProvider = ({
-  url: initialUrl = '',
-  config: initialConfig = {},
-  resolveParser = res => Promise.resolve(res),
-  rejectParser = res => Promise.reject(res),
+  url = '',
+  config = {},
+  resolveHook = res => Promise.resolve(res),
+  rejectHook = res => Promise.reject(res),
   children
 }) => {
-  const url = useRef(initialUrl)
-  const config = useRef(initialConfig)
-  const resolveHook = useRef(res => Promise.resolve(res))
-  const rejectHook = useRef(res => Promise.reject(res))
-
-  function mergeConfig (newConfig = {}) {
-    return {
-      ...removeUndefineds({
-        ...config.current,
-        ...newConfig
-      }),
-      headers: removeUndefineds({
-        ...(config.current.headers || {}),
-        ...(newConfig.headers || {})
-      })
-    }
-  }
-
-  function proxy (endpoint, config, params) {
-    return fetch(`${url.current}${endpoint}${objectToQuery(params)}`, mergeConfig(config))
-      .then(resolveParser).then(resolveHook.current)
-      .catch(rejectParser).catch(rejectHook.current)
+  function proxy (endpoint, queryConfig, params) {
+    return fetch(`${url}${endpoint}${objectToQuery(params)}`, mergeConfig(config, queryConfig))
+      .then(resolveHook)
+      .catch(rejectHook)
   }
 
   return React.createElement(ApiContext.Provider, {
     value: {
-      setUrl: (newUrl = '') => { url.current = newUrl },
-      setConfig: (newConfig = {}) => { config.current = mergeConfig(newConfig) },
-      getConfig: () => config.current,
-      setResolveHook: (callback = () => {}) => { resolveHook.current = callback },
-      setRejectHook: (callback = () => {}) => { rejectHook.current = callback },
+      url,
+      config,
       fetch: proxy,
-      get: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'GET', ...conf }, params),
-      post: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'POST', ...conf }, params),
-      put: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'PUT', ...conf }, params),
-      del: (endpoint, conf = {}, params) => proxy(endpoint, { method: 'DELETE', ...conf }, params)
+      get: (endpoint, config = {}, params) => proxy(endpoint, { method: 'GET', ...config }, params),
+      post: (endpoint, config = {}, params) => proxy(endpoint, { method: 'POST', ...config }, params),
+      put: (endpoint, config = {}, params) => proxy(endpoint, { method: 'PUT', ...config }, params),
+      del: (endpoint, config = {}, params) => proxy(endpoint, { method: 'DELETE', ...config }, params)
     }
   }, children)
 }
 
 export const useApi = () => useContext(ApiContext)
+
+export function mergeConfig (apiConfig = {}, queryConfig = {}) {
+  return {
+    ...removeUndefineds({
+      ...apiConfig,
+      ...queryConfig
+    }),
+    headers: removeUndefineds({
+      ...(apiConfig.headers || {}),
+      ...(queryConfig.headers || {})
+    })
+  }
+}
 
 export function objectToQuery (obj = {}) {
   if (Array.isArray(obj) || typeof obj === 'string') throw new Error('objectToQuery value should be an Object')
@@ -71,32 +63,9 @@ export function objectToQuery (obj = {}) {
   return queryUrl ? `?${queryUrl}` : ''
 }
 
-export const queryToObject = (search, descriptors = {}) => {
-  const searchParams = new URLSearchParams(search)
-
-  const params = Object.entries(descriptors).reduce((acc, [key, options]) => {
-    if (searchParams.has(key)) {
-      acc[key] = options.array
-        ? searchParams.getAll(key).map(value => toObjectValue(value, options.type))
-        : toObjectValue(searchParams.get(key), options.type)
-    }
-    return acc
-  }, {})
-
-  return params
-}
-
 export function removeUndefineds (obj) {
   return Object.keys(obj).reduce((acc, key) => {
     if (obj[key] !== undefined) { acc[key] = obj[key] }
     return acc
   }, {})
-}
-
-function toObjectValue (value, type) {
-  switch (type) {
-    case 'number': return Number(value)
-    case 'date': return isNaN(Date.parse(value)) ? value : new Date(value)
-    default: return value
-  }
 }
