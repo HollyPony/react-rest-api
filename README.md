@@ -8,6 +8,12 @@
 ![Tech Debt](https://badgen.net/codeclimate/tech-debt/codeclimate/codeclimate)
 ![Maintainability](https://badgen.net/codeclimate/maintainability/codeclimate/codeclimate)
 
+# Alert !
+
+> I'm in a huge hard requiring many update here which come with many stability issues.
+>
+>  I have no time to maintain the doc which is obsolete for now (this is the for v3 I think)
+
 Lightweight – no dependencies – React API for rest calls supporting Provider config and use hooks.
 
 It's basically [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) wrapped in a [React Context](https://reactjs.org/docs/context.htm) providing [React hooks](https://reactjs.org/docs/hooks-overview.html) and [React Consumer](https://reactjs.org/docs/context.html#contextconsumer).
