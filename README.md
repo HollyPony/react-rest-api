@@ -26,6 +26,11 @@ See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/r
 
 > This package is currently served as-is. With usage of all ES6 features without any bundling and/or specific whatever the system is used.
 
+## Next features:
+
+- Proxiing config in order to define a config per method (or whatever the condition)
+- Make unit tests great again
+
 ## TL;DR – basic full usage sample
 
 `npm i react-rest-api`
