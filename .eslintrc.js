@@ -14,10 +14,7 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'eslint:recommended',
     'plugin:react/recommended',
-    'standard',
-    'standard-react',
   ],
   rules: {
     'react/prop-types': 'off'
