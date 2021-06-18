@@ -36,23 +36,24 @@ See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/r
 `npm i react-rest-api`
 
 ```js
-import { useState, useEffect, useReducer, } from 'react'
-import { ApiProvider, useApi } from 'react-rest-api'
+import React, { useState, useEffect, useReducer } from "react";
+import ReactDOM from "react-dom";
+import { ApiProvider, useApi } from "react-rest-api";
 
 const defaultConfig = {
   headers: {
     // All api calls will take this Content-Type Header
-    'Content-Type': 'application/json',
-    'X_MY_APP_API_KEY': 'XXX',
+    "Content-Type": "application/json",
+    X_MY_APP_API_KEY: "XXX"
   }
-}
+};
 
 const App = () => {
   // `url` and `config` refer respectively to `resource` and `init` from https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
-  const url = 'https://myendpoint.co/api/'
-  const [config, setConfig] = useState(defaultConfig)
+  const url = "https://jsonplaceholder.typicode.com";
+  const [config, setConfig] = useState(defaultConfig);
 
-  function signin (token) {
+  function signin(token) {
     // Update the api config merging the current one
     setConfig({
       ...defaultConfig,
@@ -60,92 +61,130 @@ const App = () => {
         ...defaultConfig.headers,
         Authorization: token
       }
-    })
+    });
   }
 
-  function signout () {
-    setConfig(defaultConfig)
-  }
+  // Consider a logout function
+  // function signout() {
+  //   setConfig(defaultConfig);
+  // }
 
   // All resolved response shoudl be converted to json according to the content type
-  function resolveCallback (response) {
-    return response.json()
-    // Pro-tips, you can the ok prop to consider the response as rejected as needed like:
-    // return response.ok ? response.json() : response.json().then(res => Promise.reject(res)) 
+  function resolveHook(response) {
+    // Check the ok prop to consider the response as rejected as needed like:
+    return response.ok
+      ? // `.json()` if ok
+        response.json()
+      : // if not `ok` fallback to rejectHook
+        Promise.reject(response);
   }
 
   // Treat fails here before returning to your call
   // Note: The rejected reponse above will fall here
-  function rejectCallback (response) {
-    // Just wrap the response for the demo
-    return Promise.reject('FeelsBadMan')
-
+  function rejectHook(response) {
+    return Promise.reject(response);
   }
 
   return (
     <ApiProvider
       url={url} // Optional: prefix url api calls. Litteraly, it's a prefix for api calls.
       config={config} // Optional: Init default config of fetch. It can be overridable per calls later (or wrapping another ApiProvider)
-      resolveCallback={resolveCallback} // Optional: Provide callback function for success fetchs
-      rejectCallback={rejectCallback} // Optionnal: Provider reject callback
+      resolveHook={resolveHook} // Optional: Provide callback function for success fetchs
+      rejectHook={rejectHook} // Optionnal: Provider reject callback
     >
-      <SignIn siginCallback={signin} />
+      <SignIn signinCallback={signin} />
     </ApiProvider>
-  )
-}
+  );
+};
 
-const SignIn = ({ siginCallback }) => {
-  const api = useApi()
+const SignIn = ({ signinCallback }) => {
+  const api = useApi();
 
-  const [dataState, dataDispatch] = useReducer(reducer, { status: 'initializing' })
+  const [dataState, dataDispatch] = useReducer(reducer, {
+    status: "initialized",
+    payload: {}
+  });
 
-  useEffect(() => {
+  function getSuccess() {
+    dataDispatch({ status: "initializing" });
     // Call 'https://myendpoint.co/api/' + '/slug/details' + '?id=42&filter=random'
-    api.get('/slug/details', undefined, { id: 42, filter: 'random' })
-      .then(payload => {
+    api
+      .get("/comments", undefined, { id: 42, filter: "random" })
+      .then((payload) => {
         // Note that: payload is already jsonified due to resolveCallback
-        dataDispatch({ status: 'initialized', payload })
+        dataDispatch({ status: "initialized", payload });
       })
-      .catch(payload => {
+      .catch((payload) => {
         // FeelsBadMan
-        dataDispatch({ status: 'error', payload })
+        dataDispatch({ status: "error", payload });
+      });
+  }
+
+  function postSuccess() {
+    dataDispatch({ status: "initializing" });
+    api
+      .post("/comments", {
+        body: JSON.stringify({ prop: "usefull stringify operation" })
       })
-  }, [])
-  
-  function handleClick () {
-    api.post('/slug/si', {
-      body: JSON.stringify('usefull stringify operation'),
-      // This will override the default Content-type. Note the Authorization will be preserved
-      // :warning: This is for demo pruposes only, `body: JSON.stringify` should be treated as `application/json`. It's just to show a config override per call.
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8'
-      }
-    })
-      .then(response => signinCallback(response))
+      .then((payload) => {
+        signinCallback("myToken");
+        dataDispatch({ status: "initialized", payload });
+      })
+      .catch((payload) => {
+        dataDispatch({ status: "error", payload });
+      });
+  }
+
+  function postError() {
+    dataDispatch({ status: "initializing" });
+    api
+      .post("/error", {
+        body: JSON.stringify({ prop: "usefull stringify operation" }),
+        headers: {
+          // This will override the default Content-type. Note the Authorization will be preserved
+          // :warning: This is for demo pruposes only, `body: JSON.stringify` should be treated as `application/json`. It's just to show a config override per call.
+          "Content-Type": "text/html; charset=utf-8"
+        }
+      })
+      .then((payload) => {
+        signinCallback("myToken");
+        dataDispatch({ status: "initialized", payload });
+      })
+      .catch((payload) => {
+        dataDispatch({ status: "error", payload });
+      });
   }
 
   return (
     <>
-      {dataState.status === 'initializing' && 'loading ...'}
-      {dataState.status === 'error' && (
+      <div>
+        <button onClick={getSuccess}>GET SUCCESS</button>
+        <button onClick={postSuccess}>POST SUCCESS</button>
+        <button onClick={postError}>POST ERROR</button>
+      </div>
+      {dataState.status === "initializing" && "loading ..."}
+      {dataState.status === "error" && (
         <div>
           Error:
-          {JSON.stringify(dataState.payload, null, 2)}
+          <pre>{JSON.stringify(dataState.payload, null, 2)}</pre>
         </div>
       )}
-      {dataState.status === 'initialized' && (
+      {dataState.status === "initialized" && (
         <div>
           Success:
-          {JSON.stringify(dataState.payload, null, 2)}
+          <pre>{JSON.stringify(dataState.payload, null, 2)}</pre>
         </div>
       )}
-      <button onClick={signin}>Click me</button>
     </>
-  )
-}
+  );
+};
 
 // Wrap the reducer whatever we dont care that's not the point here
-function reducer (state, action) => { return { ...state, ...action } }
+function reducer(state, action) {
+  return { ...state, ...action };
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 ## Install
@@ -162,8 +201,8 @@ function reducer (state, action) => { return { ...state, ...action } }
 <ApiProvider
   url={String}
   config={Object}
-  resolveCallback={Function}
-  rejectCallback={Function}
+  resolveHook={Function}
+  rejectHook={Function}
 />
 ```
 
@@ -181,14 +220,14 @@ An object gracefully merged for all calls prior to the caller. default to empty 
 
 Overridable by `config` param of all api methods.
 
-#### resolveCallback | rejectCallback (Optional)
+#### resolveHook | rejectHook (Optional)
 
 Consider this methods as global fetch wrapper as:
 
 ```js
 fetch(...)
-  .then(resolveCallback)
-  .catch(rejectCallback)
+  .then(resolveHook)
+  .catch(rejectHook)
 ```
 
 because it's exactly how it's wrapped.
@@ -227,11 +266,11 @@ This function is the most important part the main motivation of this project.
 - `config`: merge the object with config of ApiProvider.
 - `queryParams`: is an Object for query params, under the hood use `URLSearchParams` to build a string then concat to `url` with a `?`.
 
-    > `api.get('localhost', undefined, {param1: 'value1'})` result to a call on `localhost?value1=value1`
+    > `api.get('localhost', undefined, {param1: 'value1'})` result to a call on `localhost?param1=value1`
     
     > queryParams take care of list. `{ type: [1, 2, 3] }` result to `?type=1&type=2&type=3`
     
-    > Dates object will be parsed with `toISOString` method. If you wont this behaviour, parse the date before the call.
+    > Dates object will be parsed with `toISOString` method. If you wont this behaviour, parse the date before the call, ie. don't pass Date Object.
 
 #### api get | post | put | del
 
