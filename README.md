@@ -39,24 +39,32 @@ See a working demo on codesandbox : [https://codesandbox.io/s/github/HollyPony/r
 import { useState, useEffect, useReducer, } from 'react'
 import { ApiProvider, useApi } from 'react-rest-api'
 
+const defaultConfig = {
+  headers: {
+    // All api calls will take this Content-Type Header
+    'Content-Type': 'application/json',
+    'X_MY_APP_API_KEY': 'XXX',
+  }
+}
+
 const App = () => {
   // `url` and `config` refer respectively to `resource` and `init` from https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
   const url = 'https://myendpoint.co/api/'
-  const [config, setConfig] = useState({
-    headers: {
-      // All api calls will take this Content-Type Header
-      'Content-Type': 'application/json'
-    }
-  })
+  const [config, setConfig] = useState(defaultConfig)
 
   function signin (token) {
     // Update the api config merging the current one
-    setConfig(oldConfig => ({
+    setConfig({
+      ...defaultConfig,
       headers: {
-        ...oldConfig.headers,
+        ...defaultConfig.headers,
         Authorization: token
       }
-    }))
+    })
+  }
+
+  function signout () {
+    setConfig(defaultConfig)
   }
 
   // All resolved response shoudl be converted to json according to the content type
@@ -81,12 +89,12 @@ const App = () => {
       resolveCallback={resolveCallback} // Optional: Provide callback function for success fetchs
       rejectCallback={rejectCallback} // Optionnal: Provider reject callback
     >
-      <SignIn singinCallback={signin} />
+      <SignIn siginCallback={signin} />
     </ApiProvider>
   )
 }
 
-const Items = ({ singinCallback }) => {
+const SignIn = ({ siginCallback }) => {
   const api = useApi()
 
   const [dataState, dataDispatch] = useReducer(reducer, { status: 'initializing' })
@@ -108,6 +116,7 @@ const Items = ({ singinCallback }) => {
     api.post('/slug/si', {
       body: JSON.stringify('usefull stringify operation'),
       // This will override the default Content-type. Note the Authorization will be preserved
+      // :warning: This is for demo pruposes only, `body: JSON.stringify` should be treated as `application/json`. It's just to show a config override per call.
       headers: {
         'Content-Type': 'text/html; charset=utf-8'
       }
