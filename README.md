@@ -5,8 +5,8 @@
 ![Minified + zip](https://badgen.net/bundlephobia/minzip/react-rest-api)
 ![Dependencies](https://badgen.net/github/dependents-pkg/hollypony/react-rest-api)
 ![Tests](https://github.com/HollyPony/react-rest-api/workflows/Execute%20Tests/badge.svg)
-![Tech Debt](https://badgen.net/codeclimate/tech-debt/codeclimate/codeclimate)
-![Maintainability](https://badgen.net/codeclimate/maintainability/codeclimate/codeclimate)
+![Tech Debt](https://badgen.net/codeclimate/tech-debt/HollyPony/react-rest-api)
+![Maintainability](https://badgen.net/codeclimate/maintainability/HollyPony/react-rest-api)
 
 Lightweight – no dependencies – React API for rest calls supporting Provider config and use hooks.
 
