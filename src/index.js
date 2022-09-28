@@ -9,7 +9,7 @@ export const ApiProvider = ({
   rejectHook = res => Promise.reject(res),
   children
 }) => {
-  function proxy (endpoint, queryConfig, params, options) {
+  function proxy (endpoint, queryConfig, params, options = {}) {
     return fetch(
       `${options.url === undefined ? url : options.url}${options.endpoint === undefined ? endpoint : options.endpoint}${objectToQuery(params)}`,
       mergeConfig(config, queryConfig),
