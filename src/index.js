@@ -11,7 +11,7 @@ export const ApiProvider = ({
 }) => {
   function proxy (endpoint, queryConfig, params, options) {
     return fetch(
-      `${options.url !== undefined ? options.url : url}${options.endpoint !== undefined ? options.endpoint : endpoint}${objectToQuery(params)}`,
+      `${options.url === undefined ? url : options.url}${options.endpoint === undefined ? endpoint : options.endpoint}${objectToQuery(params)}`,
       mergeConfig(config, queryConfig),
     )
       .then(options.resolveHook || resolveHook)
