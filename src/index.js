@@ -9,10 +9,13 @@ export const ApiProvider = ({
   rejectHook = res => Promise.reject(res),
   children
 }) => {
-  function proxy (endpoint, queryConfig, params) {
-    return fetch(`${url}${endpoint}${objectToQuery(params)}`, mergeConfig(config, queryConfig))
-      .then(resolveHook)
-      .catch(rejectHook)
+  function proxy (endpoint, queryConfig, params, options) {
+    return fetch(
+      `${options.url !== undefined ? options.url : url}${options.endpoint !== undefined ? options.endpoint : endpoint}${objectToQuery(params)}`,
+      mergeConfig(config, queryConfig),
+    )
+      .then(options.resolveHook || resolveHook)
+      .catch(options.rejectHook || rejectHook)
   }
 
   return React.createElement(ApiContext.Provider, {
@@ -20,10 +23,10 @@ export const ApiProvider = ({
       url,
       config,
       fetch: proxy,
-      get: (endpoint, config = {}, params) => proxy(endpoint, { method: 'GET', ...config }, params),
-      post: (endpoint, config = {}, params) => proxy(endpoint, { method: 'POST', ...config }, params),
-      put: (endpoint, config = {}, params) => proxy(endpoint, { method: 'PUT', ...config }, params),
-      del: (endpoint, config = {}, params) => proxy(endpoint, { method: 'DELETE', ...config }, params)
+      get: (endpoint, config = {}, params, options) => proxy(endpoint, { method: 'GET', ...config }, params, options),
+      post: (endpoint, config = {}, params, options) => proxy(endpoint, { method: 'POST', ...config }, params, options),
+      put: (endpoint, config = {}, params, options) => proxy(endpoint, { method: 'PUT', ...config }, params, options),
+      del: (endpoint, config = {}, params, options) => proxy(endpoint, { method: 'DELETE', ...config }, params, options)
     }
   }, children)
 }
